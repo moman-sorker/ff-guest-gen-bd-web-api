@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SARKER · Panel</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="aurora">
+  <div class="aurora-blob aurora-1"></div>
+  <div class="aurora-blob aurora-2"></div>
+  <div class="aurora-blob aurora-3"></div>
+</div>
+<div class="petals" id="petals"></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 100 100" width="42" height="42">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff6ec7"/>
+              <stop offset="50%" stop-color="#b47aea"/>
+              <stop offset="100%" stop-color="#7fffd4"/>
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="50" r="46" fill="url(#grad)" opacity="0.15"/>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="url(#grad)" stroke-width="2"/>
+          <text x="50" y="62" text-anchor="middle" font-size="38" font-weight="800" fill="url(#grad)" font-family="Inter, sans-serif">S</text>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">SARKER</div>
+        <div class="brand-sub">Premium Panel</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-item active" data-section="dashboard">
+        <span class="nav-icon">◈</span><span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-section="generate">
+        <span class="nav-icon">✦</span><span>Generate</span>
+      </div>
+      <div class="nav-item" data-section="accounts">
+        <span class="nav-icon">❁</span><span>Accounts</span>
+      </div>
+      <div class="nav-item" data-section="logs">
+        <span class="nav-icon">▤</span><span>Live Logs</span>
+      </div>
+      <div class="nav-item" data-section="files">
+        <span class="nav-icon">▦</span><span>Files</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="owner-card">
+        <div class="owner-label">OWNER</div>
+        <div class="owner-name">M. SARKER</div>
+        <div class="owner-country"><img src="https://flagcdn.com/w20/bd.png" class="flag-icon" alt="BD"> BANGLADESH</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="page-title">Dashboard</h1>
+        <p class="page-sub" id="page-sub">Overview of your operation</p>
+      </div>
+      <div class="topbar-right">
+        <div class="stat-pill">
+          <span class="stat-dot ok"></span>
+          <span class="stat-label">Generated</span>
+          <span class="stat-val" id="tb-generated">0</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-dot act"></span>
+          <span class="stat-label">Activated</span>
+          <span class="stat-val" id="tb-activated">0</span>
+        </div>
+        <div class="job-indicator" id="job-indicator" style="display:none">
+          <div class="spinner"></div>
+          <span id="job-indicator-text">Running…</span>
+          <button class="btn-stop" id="btn-stop">Stop</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- DASHBOARD -->
+      <section class="section active" id="section-dashboard">
+        <div class="cards-grid">
+          <div class="card stat-card">
+            <div class="stat-card-icon ok">✦</div>
+            <div class="stat-card-body">
+              <div class="stat-card-label">Session Generated</div>
+              <div class="stat-card-value" id="dash-generated">0</div>
+            </div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-card-icon act">⚡</div>
+            <div class="stat-card-body">
+              <div class="stat-card-label">Session Activated</div>
+              <div class="stat-card-value" id="dash-activated">0</div>
+            </div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-card-icon info">❁</div>
+            <div class="stat-card-body">
+              <div class="stat-card-label">Total Accounts (all time)</div>
+              <div class="stat-card-value" id="dash-total">0</div>
+            </div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-card-icon warn">◷</div>
+            <div class="stat-card-body">
+              <div class="stat-card-label">Job Status</div>
+              <div class="stat-card-value small" id="dash-status">IDLE</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card progress-card" id="dash-progress-card" style="display:none">
+          <div class="progress-header">
+            <div>
+              <div class="progress-title" id="progress-title">Generating accounts…</div>
+              <div class="progress-sub" id="progress-sub">0 / 0</div>
+            </div>
+            <div class="progress-pct" id="progress-pct">0%</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Recent Activity</h2>
+          </div>
+          <div class="mini-log" id="dash-recent-log">
+            <div class="mini-log-empty">No activity yet. Start by generating accounts.</div>
+          </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Quick Actions</h2>
+            </div>
+            <div class="quick-actions">
+                <button class="btn btn-primary" data-section="generate">✦ Generate Accounts</button>
+                <button class="btn btn-ghost" data-section="accounts">❁ View Accounts</button>
+                <button class="btn btn-ghost" data-section="files">▦ Download Files</button>
+                <button class="btn btn-ghost" data-section="logs">▤ View All Logs</button> <!-- নতুন বাটন -->
+            </div>
+        </div>
+      </section>
+
+      <!-- GENERATE -->
+      <section class="section" id="section-generate">
+        <div class="card">
+          <div class="card-header">
+            <h2>Generate &amp; Auto-Activate</h2>
+            <p class="card-sub">Creates accounts one by one and activates them immediately to avoid token expiry.</p>
+          </div>
+
+          <form id="gen-form" class="form">
+            <div class="form-group">
+              <label>Account Count</label>
+              <div class="preset-buttons" id="preset-count">
+                <button type="button" data-value="10">10</button>
+                <button type="button" data-value="100" class="active">100</button>
+                <button type="button" data-value="1000">1,000</button>
+                <button type="button" data-value="10000">10,000</button>
+                <button type="button" data-value="100000">100,000</button>
+                <button type="button" data-value="1000000">1,000,000</button>
+                <button type="button" data-value="custom">Custom</button>
+              </div>
+              <input type="number" id="gen-target" class="input" value="100" min="1" max="10000000" />
+            </div>
+
+            <!-- ✅ FIX 1: Region Nested Form-Group Removed -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Region</label>
+                    <div class="custom-dropdown" id="custom-region">
+                        <div class="dropdown-trigger input">
+                            <span class="selected-text">
+                                <img src="https://flagcdn.com/w20/bd.png" class="flag-icon" alt="BD"> Bangladesh (Only Supported)
+                            </span>
+                            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item active" data-value="BD">
+                                <img src="https://flagcdn.com/w20/bd.png" class="flag-icon" alt="BD"> Bangladesh (Only Supported)
+                            </div>
+                        </div>
+                        <input type="hidden" id="gen-region" value="BD">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nickname</label>
+                    <input type="text" id="gen-prefix" class="input" value="SARKER" maxlength="12" placeholder="e.g. SARKER" />
+                </div>
+            </div>
+
+            <!-- ✅ FIX 2: Missing Closing </div> added for form-row -->
+            <div class="form-row">
+              <div class="form-group">
+                <label>Password Prefix</label>
+                <input type="text" id="gen-password" class="input" value="MM388401" placeholder="e.g. MM388401" />
+              </div>
+              
+              <div class="form-group">
+                  <label>Workers</label>
+                  <div class="custom-dropdown" id="custom-workers">
+                      <div class="dropdown-trigger input">
+                          <span class="selected-text">1 (Strict 1-by-1 - Safest for Tokens)</span>
+                          <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M6 9l6 6 6-6" />
+                          </svg>
+                      </div>
+                      <div class="dropdown-menu">
+                          <div class="dropdown-item active" data-value="1">1 (Strict 1-by-1 - Safest for Tokens)</div>
+                          <div class="dropdown-item" data-value="3">3 (Fast & Safe)</div>
+                          <div class="dropdown-item" data-value="5">5 (Balanced)</div>
+                          <div class="dropdown-item" data-value="20">20 (High Speed)</div>
+                          <div class="dropdown-item" data-value="50">50 (Optimal for 100-200 Accounts)</div>
+                          <div class="dropdown-item" data-value="100">100 (Risk of Expiry / IP Block)</div>
+                      </div>
+                      <input type="hidden" id="gen-workers" value="1">
+                  </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="gen-submit">
+                ▶ Start Generation
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card" id="gen-progress-card" style="display:none">
+          <div class="progress-header">
+            <div>
+              <div class="progress-title">Generating accounts…</div>
+              <div class="progress-sub" id="gen-progress-sub">0 / 0</div>
+            </div>
+            <div class="progress-pct" id="gen-progress-pct">0%</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="gen-progress-fill"></div></div>
+          <div class="progress-meta">
+            <span id="gen-progress-region">—</span>
+            <span id="gen-progress-elapsed">0.0s</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACCOUNTS -->
+      <section class="section" id="section-accounts">
+        <div class="card">
+          <div class="card-header row-between">
+            <div>
+              <h2>Generated Accounts</h2>
+              <p class="card-sub" id="accounts-count">0 total</p>
+            </div>
+            <div class="accounts-tools">
+              <input type="text" class="input input-sm" id="accounts-search" placeholder="Search name / ID / UID…" />
+              
+              <!-- ✅ Custom Filter Dropdown -->
+              <div class="custom-dropdown" id="custom-filter" style="width: 150px;">
+                <div class="dropdown-trigger input input-sm" style="padding: 9px 12px;">
+                  <span class="selected-text">All</span>
+                  <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <div class="dropdown-menu" style="padding: 4px;">
+                  <div class="dropdown-item active" data-value="all" style="padding: 8px 12px; font-size: 13px;">All</div>
+                  <div class="dropdown-item" data-value="activated" style="padding: 8px 12px; font-size: 13px;">Activated</div>
+                  <div class="dropdown-item" data-value="pending" style="padding: 8px 12px; font-size: 13px;">Pending</div>
+                </div>
+                <input type="hidden" id="accounts-filter" value="all">
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="accounts-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nickname</th>
+                  <th>Account ID</th>
+                  <th>UID</th>
+                  <th>Password</th>
+                  <th>Region</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="accounts-tbody">
+                <tr><td colspan="7" class="empty-row">No accounts yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination" id="accounts-pagination"></div>
+        </div>
+      </section>
+
+      <!-- LOGS -->
+      <section class="section" id="section-logs">
+        <div class="card">
+          <div class="card-header row-between">
+            <div>
+              <h2>Live Logs</h2>
+              <p class="card-sub">Real-time stream from the engine.</p>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="logs-clear">Clear</button>
+          </div>
+          <div class="log-view" id="log-view">
+            <div class="log-empty">Waiting for activity…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FILES -->
+      <section class="section" id="section-files">
+        <div class="card">
+          <div class="card-header"><h2>Output Files</h2></div>
+          <div class="files-list" id="files-list">
+            <div class="files-empty">No files yet. Generate accounts first.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

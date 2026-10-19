@@ -1,0 +1,7 @@
+requests
+pycryptodome
+colorama
+aiohttp
+blackboxprotobuf
+flask
+protobuf
